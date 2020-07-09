@@ -4,13 +4,11 @@ import Login from '../Login/Login';
 
 const Deliveries = (props) => {
   const deliveries = props.deliveries.map((delivery) => {
-    return <li className={'list-group-item'}><Delivery key={Math.random()} name={delivery.name} className={'list-group-item'}/></li>
+    return <Delivery key={Math.random()} name={delivery.name} className={'list-group-item'}/>
   })
   return ( 
     <div>
-      <ul className={'list-group'}>
-        {deliveries}
-      </ul>
+      {deliveries}
       {/* <Login /> */}
     </div>
    );

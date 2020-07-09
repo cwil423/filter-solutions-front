@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import classes from './Delivery.module.css';
 import Checkbox from '../../../Components/UI/Checkbox/Checkbox';
 import Axios from 'axios';
+import Button from '@material-ui/core/Button';
 
 const Delivery = (props) => {
   const [completionStatus, setCompletionStatus] = useState(false);
@@ -25,7 +26,7 @@ const Delivery = (props) => {
       <div className={classes.name}>
         {props.name}
       </div>
-      <button type="button" className={classes.confirm} onClick={onCompleteHandler}>Confirm Delivery</button>
+      <Button variant='contained' color='primary' className={classes.confirm} onClick={onCompleteHandler}>Confirm Delivery</Button>
       <div className={classes.checkbox} >
         <Checkbox completed={completionStatus}/>
       </div>
