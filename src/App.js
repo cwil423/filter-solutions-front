@@ -2,18 +2,13 @@ import React, { useState } from 'react';
 import './App.css';
 import Deliveries from './Containers/Deliveries/Deliveries';
 import Axios from 'axios';
-import ComboBox from './Components/UI/ComboBox/ComboBox';
+// import ComboBox from './Containers/CustomerSelector/CustomerSelector';
 import CustomerSelector from './Containers/CustomerSelector/CustomerSelector';
 
 
 
 function App() {
   const [authToken, setAuthToken] = useState();
-  const [deliveries] = useState([
-    {name: 'Delivery 1'},
-    {name: 'Delivery 2'},
-    {name: 'Delivery 3'}
-  ]);
   const [customers, setCustomers] = useState([]);
 
   
@@ -34,8 +29,6 @@ function App() {
   }
 
   const apiCallHandler = () => {
-    // Axios.post('http://localhost:4000/apiCall', authToken)
-    //   .then((response) => console.log(response))
     let responseData = null
     let customerData = null
     Axios({
@@ -53,8 +46,6 @@ function App() {
         )
     })
     setCustomers(customerData)
-
-    // }).then(response => setCustomers(response.data.Customer))
   })}
 
   return (
