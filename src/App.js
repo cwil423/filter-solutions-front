@@ -4,12 +4,18 @@ import Deliveries from './Containers/Deliveries/Deliveries';
 import Axios from 'axios';
 // import ComboBox from './Containers/CustomerSelector/CustomerSelector';
 import CustomerSelector from './Containers/CustomerSelector/CustomerSelector';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 function App() {
   const [authToken, setAuthToken] = useState();
   const [customers, setCustomers] = useState([]);
+
+  const dispatch = useDispatch();
+  const allCustomers = useSelector(state => state.allCustomers)
+  const masterCustomers = useSelector(state => state.masterCustomers)
+  const customerOrder = useSelector(state => state.customerOrder)
 
   
   const cookieHandler = () => {
@@ -33,7 +39,7 @@ function App() {
     let customerData = null
     Axios({
       method: 'post',
-      url: 'http://localhost:4000/apiCall',
+      url: 'http://localhost:4000/quickbooks',
       data: authToken
     }).then(response => {
       responseData = response.data.Customer
@@ -46,8 +52,12 @@ function App() {
         )
     })
     setCustomers(customerData)
+    dispatch({type: 'ALL_CUSTOMERS', allCustomers: customerData})
+
   })}
 
+
+  
   return (
     <div className="App">
       {/* <Deliveries deliveries={deliveries}/> */}
@@ -56,6 +66,9 @@ function App() {
       <button onClick={apiCallHandler}>make api call</button>
       {/* <ComboBox customers={customers}/> */}
       <CustomerSelector customers={customers}/>
+      <button onClick={() => console.log(customerOrder)}>Get Customer Order</button>
+      
+      
 
 
       

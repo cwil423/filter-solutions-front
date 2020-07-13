@@ -4,14 +4,16 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useSelector, useDispatch } from 'react-redux'
 import { Button } from '@material-ui/core';
+import Axios from 'axios'
 
 export default function ComboBox(props) {
   // const [value, setValue] = useState(options[0]);
   // const [inputValue, setInputValue] = useState('')
-  const [names, setNames] = useState(['Cole'])
+  const [names, setNames] = useState([])
 
   const dispatch = useDispatch();
-  const masterCustomers = useSelector(state => state.masterCustomers)
+  const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
+
 
   useEffect(() => {
     console.log('render')
@@ -25,6 +27,14 @@ export default function ComboBox(props) {
     dispatch({type: 'ADD_CUSTOMER', newNames: names})
   }
 
+  const getMapquestHandler = () => {
+    Axios({
+      method: 'post',
+      url: 'http://localhost:4000/mapquest',
+      data: customersToBeDeliveredTo
+    }).then(response => console.log(response.data))
+  }
+
   return (
     <React.Fragment>
     <Autocomplete
@@ -34,19 +44,24 @@ export default function ComboBox(props) {
       style={{ width: 300 }}
       onChange={(event, newValue) => {
         let newNames = names.map(name => name)
-        newNames.push(newValue.name)
-        setNames(newNames)
+        if (newValue != null) {
+          newNames.push(newValue)
+          setNames(newNames)
+        }
+        console.log(newNames)
+        
         
       }}
       renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
     />
     <h1 onClick={getStateHandler}>Names</h1>
     <ol>
-      {names.map(name => <li>{name}</li>)}
+      {names.map(name => <li key={Math.random()}>{name.name}</li>)}
     </ol>
-    <h1>Store: {masterCustomers.map(name => <li>{name}</li>)}</h1>
-    <Button variant='contained' color='primary' onClick={updateStoreHandler}> BLAH</Button>
-
+    <h1>Store: {customersToBeDeliveredTo.map(name => <li>{name.name}</li>)}</h1>
+    <Button variant='contained' color='primary' onClick={updateStoreHandler}>Update Store</Button>
+    <button onClick={getMapquestHandler}>Get Mapquest</button>
+    <Button variant='contained' color='primary' onClick={getMapquestHandler}>Send to server and mapquest</Button>
     </React.Fragment>
     
   );
