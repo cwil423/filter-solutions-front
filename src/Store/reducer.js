@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
     case 'SET_CUSTOMER_ORDER':
       return {
         ...state,
-        customerOrder: action.customerOrder
+        customerOrder: action.order
       }
   }
   return state;

@@ -13,7 +13,7 @@ export default function ComboBox(props) {
 
   const dispatch = useDispatch();
   const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
-
+  const customerOrder = useSelector(state => state.customerOrder)
 
   useEffect(() => {
     console.log('render')
@@ -32,7 +32,18 @@ export default function ComboBox(props) {
       method: 'post',
       url: 'http://localhost:4000/mapquest',
       data: customersToBeDeliveredTo
-    }).then(response => console.log(response.data))
+    // }).then(response => console.log(response.data))
+    }).then(response => {
+      const route = response.data.route.locationSequence;
+      let stopOrder = [];
+      // dispatch({type: 'SET_CUSTOMER_ORDER', customerOrder: })
+      route.forEach(element => {
+        stopOrder.push(customersToBeDeliveredTo[element])
+      })
+      console.log(route)
+      console.log('Stop Order ', stopOrder)
+      dispatch({type: 'SET_CUSTOMER_ORDER', order: stopOrder})
+    })
   }
 
   return (
@@ -60,7 +71,6 @@ export default function ComboBox(props) {
     </ol>
     <h1>Store: {customersToBeDeliveredTo.map(name => <li>{name.name}</li>)}</h1>
     <Button variant='contained' color='primary' onClick={updateStoreHandler}>Update Store</Button>
-    <button onClick={getMapquestHandler}>Get Mapquest</button>
     <Button variant='contained' color='primary' onClick={getMapquestHandler}>Send to server and mapquest</Button>
     </React.Fragment>
     
