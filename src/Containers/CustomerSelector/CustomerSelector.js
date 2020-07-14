@@ -16,7 +16,7 @@ export default function ComboBox(props) {
   const customerOrder = useSelector(state => state.customerOrder)
 
   useEffect(() => {
-    console.log('render')
+    console.log('customer selector rendered')
   })
 
   const getStateHandler = () => {

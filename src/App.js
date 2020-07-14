@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Deliveries from './Containers/Deliveries/Deliveries';
 import Axios from 'axios';
@@ -16,6 +16,10 @@ function App() {
   const allCustomers = useSelector(state => state.allCustomers)
   const masterCustomers = useSelector(state => state.masterCustomers)
   const customerOrder = useSelector(state => state.customerOrder)
+  
+  useEffect(() => {
+    console.log('app rendered')
+  });
 
   
   const cookieHandler = () => {
@@ -60,7 +64,7 @@ function App() {
   
   return (
     <div className="App">
-      {/* <Deliveries deliveries={deliveries}/> */}
+      <Deliveries deliveries={customerOrder}/>
       <button onClick={cookieHandler}>Get cookie</button>
       <button onClick={logStateHandler}>log state</button>
       <button onClick={apiCallHandler}>make api call</button>

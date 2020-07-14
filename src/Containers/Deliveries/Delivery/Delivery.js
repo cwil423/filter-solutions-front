@@ -7,24 +7,20 @@ import Button from '@material-ui/core/Button';
 const Delivery = (props) => {
   const [completionStatus, setCompletionStatus] = useState(false);
 
+  const readableAddress = `${props.address.Line1} ${props.address.City} ${props.address.CountrySubDivisionCode}`;
+
   const onCompleteHandler = () => {
     setCompletionStatus(true)
-    // Axios.get('https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365064691660/customer/1?minorversion=51')
-    //   .then(response => console.log(response))
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   console.log(position)
-    //   Axios.post('http://localhost:4000/', {
-    //     name: 'Joel',
-    //     lat: position.coords.latitude,
-    //     lng: position.coords.longitude
-    //   })
-    // }, null, {enableHighAccuracy: true})
+      Axios.post('http://localhost:4000/mongoDb', {
+        name: props.name,
+        address: readableAddress
+      }).then(response => console.log(response))
   }
 
   return ( 
     <div className={classes.delivery}>
       <div className={classes.name}>
-        {props.name}
+        {`${props.name}: ${readableAddress}`}
       </div>
       <Button variant='contained' color='primary' className={classes.confirm} onClick={onCompleteHandler}>Confirm Delivery</Button>
       <div className={classes.checkbox} >
