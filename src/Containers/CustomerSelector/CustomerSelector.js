@@ -5,11 +5,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useSelector, useDispatch } from 'react-redux'
 import { Button } from '@material-ui/core';
 import Axios from 'axios'
+import ListDisplay from '../../Components/UI/ListDisplay/ListDisplay';
 
 export default function ComboBox(props) {
   // const [value, setValue] = useState(options[0]);
   // const [inputValue, setInputValue] = useState('')
   const [names, setNames] = useState([])
+  const [authToken, setAuthToken] = useState();
+  const [customers, setCustomers] = useState([]);
 
   const dispatch = useDispatch();
   const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
@@ -19,14 +22,42 @@ export default function ComboBox(props) {
     console.log('customer selector rendered')
   })
 
-  const getStateHandler = () => {
-    console.log(names)
+  const cookieHandler = () => {
+    Axios.get('http://localhost:4000')
+      .then(() => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${'secondcookie'}=`);
+        if (parts.length === 2) setAuthToken({
+          token: parts.pop().split(';').shift()
+        });
+      })
   }
-  
+
+  const apiCallHandler = () => {
+    let responseData = null
+    let customerData = null
+    Axios({
+      method: 'post',
+      url: 'http://localhost:4000/quickbooks',
+      data: authToken
+    }).then(response => {
+      responseData = response.data.Customer
+    customerData = responseData.map((cust) => {
+      return(
+        {
+          name: cust.DisplayName,
+          address: cust.BillAddr
+        }
+        )
+    })
+    setCustomers(customerData)
+    dispatch({type: 'ALL_CUSTOMERS', allCustomers: customerData})
+  })}
+
   const updateStoreHandler = () => {
     dispatch({type: 'ADD_CUSTOMER', newNames: names})
   }
-
+  
   const getMapquestHandler = () => {
     Axios({
       method: 'post',
@@ -48,11 +79,13 @@ export default function ComboBox(props) {
 
   return (
     <React.Fragment>
+    <Button variant='contained' color='primary' onClick={cookieHandler}>Get cookie</Button>
+    <Button variant='contained' color='primary' onClick={apiCallHandler}>make api call</Button>
     <Autocomplete
       id="combo-box-demo"
-      options={props.customers}
+      options={customers}
       getOptionLabel={(option) => option.name}
-      style={{ width: 300 }}
+      style={{ width: 300, margin: 10 }}
       onChange={(event, newValue) => {
         let newNames = names.map(name => name)
         if (newValue != null) {
@@ -60,19 +93,15 @@ export default function ComboBox(props) {
           setNames(newNames)
         }
         console.log(newNames)
-        
-        
       }}
-      renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+      renderInput={(params) => <TextField {...params} label="Enter Customer Names Here" variant="outlined" />}
     />
-    <h1 onClick={getStateHandler}>Names</h1>
-    <ol>
-      {names.map(name => <li key={Math.random()}>{name.name}</li>)}
-    </ol>
-    <h1>Store: {customersToBeDeliveredTo.map(name => <li>{name.name}</li>)}</h1>
-    <Button variant='contained' color='primary' onClick={updateStoreHandler}>Update Store</Button>
-    <Button variant='contained' color='primary' onClick={getMapquestHandler}>Send to server and mapquest</Button>
-    </React.Fragment>
+    <ListDisplay title={'Deliveries'} data={names} />
+    <ListDisplay title={'Delivery Order'} data={customerOrder} />
+    <Button variant='contained' color='primary' onClick={updateStoreHandler}>Confirm Deliveries</Button>
+    <Button variant='contained' color='primary'  onClick={getMapquestHandler}>Det delivery Order</Button>
     
+    <Button variant='contained' color='primary' onClick={props.onSubmit}>Change to Deliveries</Button>
+    </React.Fragment>
   );
 }

@@ -1,0 +1,10 @@
+.main {
+font-size: x-large;
+color: white;
+background-color: #3f51b5;
+height: 10vh;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 10px;
+}
