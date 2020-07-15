@@ -4,8 +4,12 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useSelector, useDispatch } from 'react-redux'
 import { Button } from '@material-ui/core';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Card from '@material-ui/core/Card';
 import Axios from 'axios'
 import ListDisplay from '../../Components/UI/ListDisplay/ListDisplay';
+import classes from './CustomerSelector.module.css';
+
 
 export default function ComboBox(props) {
   // const [value, setValue] = useState(options[0]);
@@ -53,10 +57,6 @@ export default function ComboBox(props) {
     setCustomers(customerData)
     dispatch({type: 'ALL_CUSTOMERS', allCustomers: customerData})
   })}
-
-  const updateStoreHandler = () => {
-    dispatch({type: 'ADD_CUSTOMER', newNames: names})
-  }
   
   const getMapquestHandler = () => {
     Axios({
@@ -75,33 +75,38 @@ export default function ComboBox(props) {
       console.log('Stop Order ', stopOrder)
       dispatch({type: 'SET_CUSTOMER_ORDER', order: stopOrder})
     })
+    props.onSubmit()
   }
 
   return (
-    <React.Fragment>
-    <Button variant='contained' color='primary' onClick={cookieHandler}>Get cookie</Button>
-    <Button variant='contained' color='primary' onClick={apiCallHandler}>make api call</Button>
-    <Autocomplete
-      id="combo-box-demo"
-      options={customers}
-      getOptionLabel={(option) => option.name}
-      style={{ width: 300, margin: 10 }}
-      onChange={(event, newValue) => {
-        let newNames = names.map(name => name)
-        if (newValue != null) {
-          newNames.push(newValue)
-          setNames(newNames)
-        }
-        console.log(newNames)
-      }}
-      renderInput={(params) => <TextField {...params} label="Enter Customer Names Here" variant="outlined" />}
-    />
-    <ListDisplay title={'Deliveries'} data={names} />
-    <ListDisplay title={'Delivery Order'} data={customerOrder} />
-    <Button variant='contained' color='primary' onClick={updateStoreHandler}>Confirm Deliveries</Button>
-    <Button variant='contained' color='primary'  onClick={getMapquestHandler}>Det delivery Order</Button>
-    
-    <Button variant='contained' color='primary' onClick={props.onSubmit}>Change to Deliveries</Button>
-    </React.Fragment>
+    <div className={classes.customerSelector}>
+      <Card className={classes.card}>
+        <ButtonGroup color='primary'>
+          <Button variant='contained' onClick={cookieHandler}>Get cookie</Button>
+          <Button variant='contained' onClick={apiCallHandler} disabled={authToken == null}>make api call</Button>
+        </ButtonGroup>
+        <Autocomplete
+          id="combo-box-demo"
+          options={customers}
+          getOptionLabel={(option) => option.name}
+          style={{ width: 300, margin: 10 }}
+          onChange={(event, newValue) => {
+            let newNames = [...customersToBeDeliveredTo]
+            if (newValue != null) {
+              newNames.push(newValue)
+              dispatch({type: 'ADD_CUSTOMER', newNames: newNames})
+            }
+            console.log(newNames)
+          }}
+          renderInput={(params) => <TextField {...params} label="Enter Customer Names Here" variant="outlined" />}
+        />
+        <ListDisplay title={'Deliveries'} data={customersToBeDeliveredTo} />
+        <Button variant='contained' color='primary'  onClick={getMapquestHandler} disabled={customersToBeDeliveredTo.length == 0}>Confirm Deliveries</Button>
+      </Card>
+      {/* <Card className={classes.card}>
+        <Button variant='contained' color='primary' onClick={props.onSubmit} disabled={customerOrder.length == 0}>Change to Deliveries</Button>
+        <ListDisplay title={'Delivery Order'} data={customerOrder} />
+      </Card> */}
+    </div>
   );
 }
