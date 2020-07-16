@@ -63,16 +63,12 @@ export default function ComboBox(props) {
       method: 'post',
       url: 'http://localhost:4000/mapquest',
       data: customersToBeDeliveredTo
-    // }).then(response => console.log(response.data))
     }).then(response => {
       const route = response.data.route.locationSequence;
       let stopOrder = [];
-      // dispatch({type: 'SET_CUSTOMER_ORDER', customerOrder: })
       route.forEach(element => {
         stopOrder.push(customersToBeDeliveredTo[element])
       })
-      console.log(route)
-      console.log('Stop Order ', stopOrder)
       dispatch({type: 'SET_CUSTOMER_ORDER', order: stopOrder})
     })
     props.onSubmit()
@@ -82,14 +78,14 @@ export default function ComboBox(props) {
     <div className={classes.customerSelector}>
       <Card className={classes.card}>
         <ButtonGroup color='primary'>
-          <Button variant='contained' onClick={cookieHandler}>Get cookie</Button>
-          <Button variant='contained' onClick={apiCallHandler} disabled={authToken == null}>make api call</Button>
+          <Button variant='contained' onClick={cookieHandler} style={{width: 200, height: 50}}>Get Authorization</Button>
+          <Button variant='contained' onClick={apiCallHandler} style={{width: 200, height: 50}} disabled={authToken == null}>Get Customers</Button>
         </ButtonGroup>
         <Autocomplete
           id="combo-box-demo"
           options={customers}
           getOptionLabel={(option) => option.name}
-          style={{ width: 300, margin: 10 }}
+          style={{ width: 450, margin: 20 }}
           onChange={(event, newValue) => {
             let newNames = [...customersToBeDeliveredTo]
             if (newValue != null) {
@@ -101,12 +97,8 @@ export default function ComboBox(props) {
           renderInput={(params) => <TextField {...params} label="Enter Customer Names Here" variant="outlined" />}
         />
         <ListDisplay title={'Deliveries'} data={customersToBeDeliveredTo} />
-        <Button variant='contained' color='primary'  onClick={getMapquestHandler} disabled={customersToBeDeliveredTo.length == 0}>Confirm Deliveries</Button>
+        <Button variant='contained' color='primary' style={{width: 200, height: 50}} onClick={getMapquestHandler} disabled={customersToBeDeliveredTo.length == 0}>Confirm Deliveries</Button>
       </Card>
-      {/* <Card className={classes.card}>
-        <Button variant='contained' color='primary' onClick={props.onSubmit} disabled={customerOrder.length == 0}>Change to Deliveries</Button>
-        <ListDisplay title={'Delivery Order'} data={customerOrder} />
-      </Card> */}
     </div>
   );
 }

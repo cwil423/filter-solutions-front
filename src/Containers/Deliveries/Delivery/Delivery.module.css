@@ -8,20 +8,17 @@
   font-size: xx-large;
 }
 
-/* .name {
+.name {
   margin: auto;
-} */
-
-.checkbox {
-  margin: 10px 10px 10px 10px;
-  padding: 10px;
+  font-size: large;
 }
 
-/* .confirm {
-  border: 3px solid black;
+.checkbox {
+  margin: 10px 20px 10px 10px;
+}
+
+.confirm {
   padding: 10px;
   margin: 10px 10px;
-  cursor: pointer;
-  background-color: aquamarine;
-} */
+}
 

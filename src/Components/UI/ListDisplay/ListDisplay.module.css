@@ -1,3 +1,5 @@
 .root {
-  width: 200px;
+  text-align: start;
+  list-style-position: inside;
+  margin: 20px;
 }

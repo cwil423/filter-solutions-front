@@ -6,7 +6,7 @@ import Axios from 'axios';
 import CustomerSelector from './Containers/CustomerSelector/CustomerSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from './Components/UI/Header/Header';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, CssBaseline } from '@material-ui/core';
 import classes from './App.css';
 
 

@@ -22,7 +22,10 @@ const Delivery = (props) => {
       <div className={classes.name}>
         {`${props.name}: ${readableAddress}`}
       </div>
-      <Button variant='contained' color='primary' className={classes.confirm} onClick={onCompleteHandler}>Confirm Delivery</Button>
+      <div className={classes.confirm}>
+        <Button variant='contained' color='primary' onClick={onCompleteHandler}>Confirm Delivery</Button>
+      </div>
+      
       <div className={classes.checkbox} >
         <Checkbox completed={completionStatus}/>
       </div>

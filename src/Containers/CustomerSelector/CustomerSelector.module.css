@@ -1,10 +1,15 @@
 .customerSelector {
+  font-size: large;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 50px;
-  margin: 50px;
+  margin: 100px 50px;
 }
