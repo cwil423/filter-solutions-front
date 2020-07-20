@@ -12,18 +12,16 @@ import classes from './CustomerSelector.module.css';
 
 
 export default function ComboBox(props) {
-  // const [value, setValue] = useState(options[0]);
-  // const [inputValue, setInputValue] = useState('')
-  const [names, setNames] = useState([])
   const [authToken, setAuthToken] = useState();
   const [customers, setCustomers] = useState([]);
+  const [rerender, setRerender] = useState([]);
 
   const dispatch = useDispatch();
   const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
-  const customerOrder = useSelector(state => state.customerOrder)
 
   useEffect(() => {
     console.log('customer selector rendered')
+    console.log(customersToBeDeliveredTo)
   })
 
   const cookieHandler = () => {
@@ -74,12 +72,30 @@ export default function ComboBox(props) {
     props.onSubmit()
   }
 
+  const removeCustomerHandler = (index) => {
+    let customers = customersToBeDeliveredTo;
+    customers.splice(index, 1)
+    dispatch({type: 'REMOVE_CUSTOMER', customers: customers})
+    setRerender(!rerender)
+  }
+
   return (
     <div className={classes.customerSelector}>
       <Card className={classes.card}>
         <ButtonGroup color='primary'>
-          <Button variant='contained' onClick={cookieHandler} style={{width: 200, height: 50}}>Get Authorization</Button>
-          <Button variant='contained' onClick={apiCallHandler} style={{width: 200, height: 50}} disabled={authToken == null}>Get Customers</Button>
+          <Button 
+            variant='contained' 
+            onClick={cookieHandler} 
+            style={{width: 200, height: 50}}>
+            Get Authorization
+          </Button>
+          <Button 
+            variant='contained' 
+            onClick={apiCallHandler} 
+            style={{width: 200, height: 50}} 
+            disabled={authToken == null}>
+            Get Customers
+          </Button>
         </ButtonGroup>
         <Autocomplete
           id="combo-box-demo"
@@ -92,12 +108,22 @@ export default function ComboBox(props) {
               newNames.push(newValue)
               dispatch({type: 'ADD_CUSTOMER', newNames: newNames})
             }
-            console.log(newNames)
           }}
           renderInput={(params) => <TextField {...params} label="Enter Customer Names Here" variant="outlined" />}
         />
-        <ListDisplay title={'Deliveries'} data={customersToBeDeliveredTo} />
-        <Button variant='contained' color='primary' style={{width: 200, height: 50}} onClick={getMapquestHandler} disabled={customersToBeDeliveredTo.length == 0}>Confirm Deliveries</Button>
+        <ListDisplay 
+          title={'Deliveries'} 
+          data={customersToBeDeliveredTo} 
+          onRemove={removeCustomerHandler}
+          removable={true}/>
+        <Button 
+          variant='contained' 
+          color='primary' 
+          style={{width: 200, height: 50}} 
+          onClick={getMapquestHandler} 
+          disabled={customersToBeDeliveredTo.length == 0}>
+          Confirm Deliveries
+        </Button>
       </Card>
     </div>
   );

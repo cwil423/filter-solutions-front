@@ -6,6 +6,7 @@
   height: 10vh;
   border: 1px solid black;
   font-size: xx-large;
+  width: 100%;
 }
 
 .name {
@@ -13,12 +14,4 @@
   font-size: large;
 }
 
-.checkbox {
-  margin: 10px 20px 10px 10px;
-}
-
-.confirm {
-  padding: 10px;
-  margin: 10px 10px;
-}
 

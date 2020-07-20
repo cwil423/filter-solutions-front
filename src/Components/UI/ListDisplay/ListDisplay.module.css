@@ -3,3 +3,14 @@
   list-style-position: inside;
   margin: 20px;
 }
+
+.listItem {
+  padding: 8px;
+  display: inline-block;
+  width: 300px;
+}
+
+.removeButton {
+  float: right;
+  right: 10px;
+}

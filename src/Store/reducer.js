@@ -1,4 +1,5 @@
 import React from 'react';
+import { AccordionActions } from '@material-ui/core';
 
 const initialState = {
   customersToBeDeliveredTo: [],
@@ -24,7 +25,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         customerOrder: action.order
-      }
+      };
+    case 'REMOVE_CUSTOMER':
+      return {
+        ...state,
+        customersToBeDeliveredTo: action.customers
+      };
   }
   return state;
 }

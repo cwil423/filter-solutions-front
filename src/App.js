@@ -42,6 +42,7 @@ function App() {
     <div className="App">
       <Header />
       {content}
+      {/* <Deliveries deliveries={[]}/> */}
     </div>
   );
 }
