@@ -10,8 +10,6 @@ const Deliveries = (props) => {
   return ( 
     <div className={classes.deliveries}>
       {deliveries}
-      <Delivery name='Cole Williamson' address={{Line1: "65 Ocean Dr.", City: "Half Moon Bay", CountrySubDivisionCode: "CA"}}/> 
-      {/* <Login /> */}
     </div>
    );
 }

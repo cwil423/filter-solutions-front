@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  flex-direction: column;
 }
 
 .card {
@@ -13,3 +14,19 @@
   padding: 25px;
   margin: 100px 50px;
 }
+
+.quickbooksButton {
+  background-image: url(../../assets/images/quickbooks.png);
+  background-size: 100%;
+  margin-bottom: 10px;
+  width: 300px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quickbooksButton:hover {
+  background-image: url(../../assets/images/quickbooksHover.png);
+}
+

@@ -9,12 +9,14 @@ import Card from '@material-ui/core/Card';
 import Axios from 'axios'
 import ListDisplay from '../../Components/UI/ListDisplay/ListDisplay';
 import classes from './CustomerSelector.module.css';
+import Modal from '../../Components/UI/Modal/Modal';
 
 
 export default function ComboBox(props) {
   const [authToken, setAuthToken] = useState();
   const [customers, setCustomers] = useState([]);
   const [rerender, setRerender] = useState([]);
+  const [modalOpen, setModalOpen] = useState(true)
 
   const dispatch = useDispatch();
   const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
@@ -23,6 +25,7 @@ export default function ComboBox(props) {
     console.log('customer selector rendered')
     console.log(customersToBeDeliveredTo)
   })
+
 
   const cookieHandler = () => {
     Axios.get('http://localhost:4000')
@@ -79,9 +82,34 @@ export default function ComboBox(props) {
     setRerender(!rerender)
   }
 
+  const modalHandler = () => {
+    setModalOpen(false)
+  }
+
   return (
     <div className={classes.customerSelector}>
+     
+      {/* <Modal 
+        show={modalOpen}
+        onClick={modalHandler}
+        className={classes.modal}
+      >
+        <h4>Click button to open link to sign in.</h4>
+        <Button
+          variant='contained'
+          color='primary'
+        >
+          <a href='http://localhost:4000/oauth' target="_blank" rel="noopener noreferrer">Sign In</a>
+        </Button>
+      </Modal> */}
+      {/* <a href='http://localhost:4000/oauth' target="_blank" rel="noopener noreferrer">Auth Link</a> */}
       <Card className={classes.card}>
+        <a 
+          className={classes.quickbooksButton}
+          href={'http://localhost:4000/oauth'}
+          target='_blank'
+          rel='noopener norefferer'>
+        </a>
         <ButtonGroup color='primary'>
           <Button 
             variant='contained' 
