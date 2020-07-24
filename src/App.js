@@ -43,22 +43,6 @@ function App() {
   return (
     <div className="App">
       <Header />
-      {/* <Modal className={classes.modal}
-        style={{ 
-            width: '300px',
-            height: '300px',
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            marginLeft: '-150px',
-            marginTop: '-150px'
-        }}
-        BackdropProps='open'
-        open
-        >
-        <h1>Modal</h1>
-      </Modal> */}
-
       {content}
       {/* <Deliveries deliveries={[]}/> */}
     </div>

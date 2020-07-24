@@ -7,7 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
-import classes from './ConfirmDeliveryModal.module.css';
+import classes from './ConfirmDelivery.module.css';
+
+// Need to move most functionality into parent components
 
 export default function ConfirmDelivery(props) {
   const [open, setOpen] = useState(false)
@@ -17,13 +19,15 @@ export default function ConfirmDelivery(props) {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (trueOrFalse) => {
     setOpen(false);
-    onCompleteHandler()
-    setCompletionStatus(true)
+    if (trueOrFalse) {
+      confirmDeliveryHandler()
+      setCompletionStatus(true)
+    }
   };
 
-  const onCompleteHandler = () => {
+  const confirmDeliveryHandler = () => {
     setCompletionStatus(true)
       Axios.post('http://localhost:4000/mongoDb', {
         name: props.name,
@@ -38,30 +42,27 @@ export default function ConfirmDelivery(props) {
       </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Delivery confirmation."}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
+            {`Confirm delivery to ${props.readableAddress}?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
+          <Button onClick={() => handleClose(false)} color="primary">
+            Cancel
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
+          <Button onClick={() => handleClose(true)} color="primary" autoFocus>
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
       <Checkbox 
         className={classes.checkbox}
-        // width={300}
-        // style={{ width: 100 }}
         disabled={!completionStatus} 
         checked={completionStatus}
         color="primary"

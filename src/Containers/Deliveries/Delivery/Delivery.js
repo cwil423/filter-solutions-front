@@ -3,7 +3,7 @@ import classes from './Delivery.module.css';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Checkbox2 from '@material-ui/core/Checkbox';
-import AlertDialog from '../../../Components/UI/ConfirmDeliveryModal/ConfirmDeliveryModal';
+import ConfirmDelivery from './ConfirmDelivery/ConfirmDelivery';
 
 
 const Delivery = (props) => {
@@ -25,13 +25,7 @@ const Delivery = (props) => {
         {`${props.name}: ${readableAddress}`}
       </div>
       <div className={classes.confirm}>
-        {/* <Button 
-          variant='contained' 
-          color='primary'
-          onClick={doubleConfirmHandler}>
-          Confirm Delivery
-        </Button> */}
-        <AlertDialog readableAddress={readableAddress}/>
+        <ConfirmDelivery readableAddress={readableAddress}/>
       </div>
       
       
