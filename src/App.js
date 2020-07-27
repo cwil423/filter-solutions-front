@@ -1,28 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Deliveries from './Containers/Deliveries/Deliveries';
-import Axios from 'axios';
-// import ComboBox from './Containers/CustomerSelector/CustomerSelector';
 import CustomerSelector from './Containers/CustomerSelector/CustomerSelector';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Header from './Components/UI/Header/Header';
-import { CircularProgress, CssBaseline } from '@material-ui/core';
-import classes from './App.css';
-// import { Modal } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 
 
 
 
 function App() {
   const [selectingCustomers, setSelectingCustomers] = useState(true)
-
-  const dispatch = useDispatch();
   const customerOrder = useSelector(state => state.customerOrder)
   
-  useEffect(() => {
-    console.log('app rendered')
-  });
-
   const customersSelectedHandler = () => {
     setSelectingCustomers(false)
   }
@@ -44,7 +34,6 @@ function App() {
     <div className="App">
       <Header />
       {content}
-      {/* <Deliveries deliveries={[]}/> */}
     </div>
   );
 }

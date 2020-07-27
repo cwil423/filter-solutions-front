@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -15,16 +14,9 @@ export default function ComboBox(props) {
   const [authToken, setAuthToken] = useState();
   const [customers, setCustomers] = useState([]);
   const [rerender, setRerender] = useState([]);
-  const [modalOpen, setModalOpen] = useState(true)
 
   const dispatch = useDispatch();
   const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
-
-  useEffect(() => {
-    console.log('customer selector rendered')
-    console.log(customersToBeDeliveredTo)
-  })
-
 
   const cookieHandler = () => {
     Axios.get('http://localhost:4000')
@@ -79,10 +71,6 @@ export default function ComboBox(props) {
     customers.splice(index, 1)
     dispatch({type: 'REMOVE_CUSTOMER', customers: customers})
     setRerender(!rerender)
-  }
-
-  const modalHandler = () => {
-    setModalOpen(false)
   }
 
   return (

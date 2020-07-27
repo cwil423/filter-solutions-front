@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  /* background-color: lightblue; */
   height: 10vh;
   border: 1px solid black;
   font-size: xx-large;
@@ -10,11 +9,17 @@
 }
 
 .name {
-  margin: auto;
   font-size: large;
   width: 500px;
   margin-left: 30px;
+}
 
+.confirm {
+ width: 255px;
+}
+
+.checkbox {
+  margin-right: 20px;
 }
 
 

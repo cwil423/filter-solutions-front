@@ -1,6 +1,3 @@
-import React from 'react';
-import { AccordionActions } from '@material-ui/core';
-
 const initialState = {
   customersToBeDeliveredTo: [],
   allCustomers: [],
