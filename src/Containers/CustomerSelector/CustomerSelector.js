@@ -137,7 +137,7 @@ export default function ComboBox(props) {
           color='primary' 
           style={{width: 200, height: 50}} 
           onClick={getMapquestHandler} 
-          disabled={customersToBeDeliveredTo.length == 0}>
+          disabled={customersToBeDeliveredTo.length < 2}>
           Confirm Deliveries
         </Button>
       </Card>
