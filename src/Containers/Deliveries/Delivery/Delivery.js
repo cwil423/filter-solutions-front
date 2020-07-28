@@ -38,8 +38,10 @@ const Delivery = (props) => {
           modalOpen={modalOpenHandler}
           modalClose={modalCloseHandler} 
           completionsStatus={completionStatus}
-          title={"Delivery confirmation."}
+          title={"Delivery confirmation"}
           text={`Confirm delivery to ${readableAddress}?`}
+          hasButton={true}
+          hasCancelButton={true}
           buttonText={'Confirm Delivery'}
           buttonSize='medium'/>
       </div>

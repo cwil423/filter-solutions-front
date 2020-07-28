@@ -8,15 +8,21 @@ import Card from '@material-ui/core/Card';
 import Axios from 'axios'
 import ListDisplay from '../../Components/UI/ListDisplay/ListDisplay';
 import classes from './CustomerSelector.module.css';
+import ConfirmationModal from '../../Components/UI/ConfirmationModal/ConfirmationModal';
 
 
 export default function ComboBox(props) {
   const [authToken, setAuthToken] = useState();
   const [customers, setCustomers] = useState([]);
   const [rerender, setRerender] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
+
+  const modalCloseHandler = () => {
+    setModalOpen(false)
+  }
 
   const cookieHandler = () => {
     Axios.get('http://localhost:4000')
@@ -75,6 +81,14 @@ export default function ComboBox(props) {
 
   return (
     <div className={classes.customerSelector}>
+      <ConfirmationModal
+            modal={modalOpen} 
+            modalOpen={setModalOpen}
+            modalClose={modalCloseHandler} 
+            title={"Could not add customer"}
+            text={'Customer has no address in QuickBooks.'}
+            buttonText={'Complete Route'}
+            buttonSize='large'/>
       <Card className={classes.card}>
         <a 
           className={classes.quickbooksButton}
@@ -103,8 +117,12 @@ export default function ComboBox(props) {
           onChange={(event, newValue) => {
             let newNames = [...customersToBeDeliveredTo]
             if (newValue != null) {
-              newNames.push(newValue)
-              dispatch({type: 'ADD_CUSTOMER', newNames: newNames})
+              if (newValue.address != null) {
+                newNames.push(newValue)
+                dispatch({type: 'ADD_CUSTOMER', newNames: newNames})
+              } else {
+                setModalOpen(true)
+              }
             }
           }}
           renderInput={(params) => <TextField {...params} label="Enter Customer Names Here" variant="outlined" />}

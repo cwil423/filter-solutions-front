@@ -8,11 +8,28 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import classes from './ConfirmationModal.module.css';
 
 export default function ConfirmDelivery(props) {
-  return (
-    <div className={classes.confirmDelivery}>
+
+  let hasButton = null
+  if (props.hasButton) {
+    hasButton = (
       <Button variant="contained" color="primary" size={props.buttonSize} onClick={props.modalOpen}>
         {props.buttonText}
       </Button>
+    )
+  }
+  
+  let hasCancelButton = null
+  if (props.hasCancelButton) {
+    hasCancelButton = (
+      <Button onClick={() => props.modalClose(false)} color="primary">
+        Cancel
+      </Button>
+    )
+  }
+
+  return (
+    <div className={classes.confirmDelivery}>
+      {hasButton}
       <Dialog
         open={props.modal}
         modalClose={props.modalClose}
@@ -26,9 +43,7 @@ export default function ConfirmDelivery(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => props.modalClose(false)} color="primary">
-            Cancel
-          </Button>
+          {hasCancelButton}
           <Button onClick={() => props.modalClose(true)} color="primary" autoFocus>
             Confirm
           </Button>

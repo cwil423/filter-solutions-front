@@ -27,8 +27,10 @@ const Deliveries = (props) => {
             modal={modalOpen} 
             modalOpen={() => setModalOpen(true)}
             modalClose={modalCloseHandler} 
-            title={"Route confirmation."}
+            title={"Route confirmation"}
             text={'Complete route and return to main page?'}
+            hasButton={true}
+            hasCancelButton={true}
             buttonText={'Complete Route'}
             buttonSize='large'/>
       </div>
