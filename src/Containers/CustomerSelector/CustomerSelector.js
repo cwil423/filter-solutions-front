@@ -25,7 +25,7 @@ export default function ComboBox(props) {
   }
 
   const cookieHandler = () => {
-    Axios.get('http://localhost:4000')
+    Axios.get('https://routeappback.totalfiltersolutions.com')
       .then(() => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${'secondcookie'}=`);
@@ -60,7 +60,7 @@ export default function ComboBox(props) {
   const getMapquestHandler = () => {
     Axios({
       method: 'post',
-      url: 'http://localhost:4000/mapquest',
+      url: 'https://routeappback.totalfiltersolutions.com/mapquest',
       data: customersToBeDeliveredTo
     }).then(response => {
       const route = response.data.route.locationSequence;
@@ -93,7 +93,7 @@ export default function ComboBox(props) {
       <Card className={classes.card}>
         <a 
           className={classes.quickbooksButton}
-          href={'http://localhost:4000/oauth'}>
+          href={'https://routeappback.totalfiltersolutions.co/oauth'}>
         </a>
         <ButtonGroup color='primary'>
           <Button 
