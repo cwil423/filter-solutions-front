@@ -24,15 +24,16 @@ export default function ComboBox(props) {
     setModalOpen(false)
   }
 
-  const cookieHandler = () => {
-    Axios.get('https://routeappback.totalfiltersolutions.com')
-      .then(() => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${'secondcookie'}=`);
-        if (parts.length === 2) setAuthToken({
-          token: parts.pop().split(';').shift()
-        });
-      })
+  const getAccessToken = () => {
+    Axios.get('https://routeappback.totalfiltersolutions.com/oauth/accessToken')
+      .then(response => setAuthToken({token: response.data[0].value}))
+      // .then(() => {
+      //   const value = `; ${document.cookie}`;
+      //   const parts = value.split(`; ${'secondcookie'}=`);
+      //   if (parts.length === 2) setAuthToken({
+      //     token: parts.pop().split(';').shift()
+      //   });
+      // })
   }
 
   const apiCallHandler = () => {
@@ -40,12 +41,11 @@ export default function ComboBox(props) {
     let customerData = null
     Axios({
       method: 'post',
-      // url: 'https://localhost:4000/quickbooks',
       url: 'https://routeappback.totalfiltersolutions.com/quickbooks',
       data: authToken
     }).then(response => {
       responseData = response.data.Customer
-    customerData = responseData.map((cust) => {
+      customerData = responseData.map((cust) => {
       return(
         {
           name: cust.DisplayName,
@@ -98,7 +98,7 @@ export default function ComboBox(props) {
         <ButtonGroup color='primary'>
           <Button 
             variant='contained' 
-            onClick={cookieHandler} 
+            onClick={getAccessToken} 
             style={{width: 200, height: 50}}>
             Get Authorization
           </Button>
