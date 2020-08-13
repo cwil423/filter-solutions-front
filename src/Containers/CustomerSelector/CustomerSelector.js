@@ -16,6 +16,7 @@ export default function ComboBox(props) {
   const [customers, setCustomers] = useState([]);
   const [rerender, setRerender] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [quickbooksButtonPushed, setQuickbooksButtonPushed] = useState(false);
 
   const dispatch = useDispatch();
   const customersToBeDeliveredTo = useSelector(state => state.customersToBeDeliveredTo)
@@ -93,13 +94,15 @@ export default function ComboBox(props) {
       <Card className={classes.card}>
         <a 
           className={classes.quickbooksButton}
-          href={'https://routeappback.totalfiltersolutions.com/oauth'}>
+          href={'https://routeappback.totalfiltersolutions.com/oauth'}
+          onClick={() => setQuickbooksButtonPushed(true)}>
         </a>
         <ButtonGroup color='primary'>
           <Button 
             variant='contained' 
             onClick={getAccessToken} 
-            style={{width: 200, height: 50}}>
+            style={{width: 200, height: 50}}
+            disabled={!quickbooksButtonPushed}>
             Get Authorization
           </Button>
           <Button 
