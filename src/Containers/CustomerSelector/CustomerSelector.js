@@ -36,14 +36,16 @@ export default function ComboBox(props) {
       // })
   }
 
-  const apiCallHandler = () => {
+  const apiCallHandler = (letters) => {
     let responseData = null
     let customerData = null
+    console.log(letters)
     Axios({
       method: 'post',
       url: 'https://routeappback.totalfiltersolutions.com/quickbooks',
-      data: authToken
+      data: [authToken, {letters: letters}]
     }).then(response => {
+      console.log(response)
       responseData = response.data.Customer
       customerData = responseData.map((cust) => {
       return(
@@ -102,21 +104,22 @@ export default function ComboBox(props) {
             style={{width: 200, height: 50}}>
             Get Authorization
           </Button>
-          <Button 
-            variant='contained' 
-            onClick={apiCallHandler} 
-            style={{width: 200, height: 50}} 
-            disabled={authToken == null}>
-            Get Customers
-          </Button>
         </ButtonGroup>
         <Autocomplete
           id="combo-box-demo"
           options={customers}
           getOptionLabel={(option) => option.name}
           style={{ width: 450, margin: 20 }}
+          onInputChange={(event, newInputValue) => {
+            console.log(newInputValue)
+            if (newInputValue != '') {
+              let letters = newInputValue;
+            apiCallHandler(letters);
+            }
+          }}
           onChange={(event, newValue) => {
-            let newNames = [...customersToBeDeliveredTo]
+            
+            let newNames = [...customersToBeDeliveredTo];
             if (newValue != null) {
               if (newValue.address != null) {
                 newNames.push(newValue)

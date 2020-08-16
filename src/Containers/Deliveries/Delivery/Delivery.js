@@ -19,7 +19,7 @@ const Delivery = (props) => {
     setModalOpen(false)
     if (confirmation) {
       setCompletionStatus(true)
-      Axios.post('https://routeappback.totalfiltersolutions.com/delivery', {
+      Axios.post('http://localhost:4000/delivery', {
         name: props.name,
         address: readableAddress
       }).then(response => response)
