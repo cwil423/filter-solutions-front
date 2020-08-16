@@ -39,13 +39,11 @@ export default function ComboBox(props) {
   const apiCallHandler = (letters) => {
     let responseData = null
     let customerData = null
-    console.log(letters)
     Axios({
       method: 'post',
       url: 'https://routeappback.totalfiltersolutions.com/quickbooks',
       data: [authToken, {letters: letters}]
     }).then(response => {
-      console.log(response)
       responseData = response.data.Customer
       customerData = responseData.map((cust) => {
       return(
@@ -111,9 +109,9 @@ export default function ComboBox(props) {
           getOptionLabel={(option) => option.name}
           style={{ width: 450, margin: 20 }}
           onInputChange={(event, newInputValue) => {
-            console.log(newInputValue)
             if (newInputValue != '') {
               let letters = newInputValue;
+              letters.charAt(0).toUpperCase();
             apiCallHandler(letters);
             }
           }}
