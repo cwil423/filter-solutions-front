@@ -27,13 +27,6 @@ export default function ComboBox(props) {
   const getAccessToken = () => {
     Axios.get('https://routeappback.totalfiltersolutions.com/oauth/accessToken')
       .then(response => setAuthToken({token: response.data[0].value}))
-      // .then(() => {
-      //   const value = `; ${document.cookie}`;
-      //   const parts = value.split(`; ${'secondcookie'}=`);
-      //   if (parts.length === 2) setAuthToken({
-      //     token: parts.pop().split(';').shift()
-      //   });
-      // })
   }
 
   const apiCallHandler = (letters) => {
@@ -45,29 +38,50 @@ export default function ComboBox(props) {
       data: [authToken, {letters: letters}]
     }).then(response => {
       responseData = response.data.Customer
-      customerData = responseData.map((cust) => {
-      return(
-        {
-          name: cust.DisplayName,
-          address: cust.BillAddr
-        }
-        )
-    })
-    setCustomers(customerData)
-    dispatch({type: 'ALL_CUSTOMERS', allCustomers: customerData})
+      if(responseData) {
+        customerData = responseData.map((cust) => {
+          return(
+            {
+              name: cust.DisplayName,
+              address: cust.BillAddr
+            }
+            )
+        })
+        setCustomers(customerData)
+        dispatch({type: 'ALL_CUSTOMERS', allCustomers: customerData})
+      }
   })}
   
   const getMapquestHandler = () => {
+    const startingAdress = {
+      name: 'start', 
+      address: {
+        Line1: '2218 Forsythe Ave.', 
+        City: 'Monroe', 
+        CountrySubDivisionCode: 'LA'
+      }
+    }
+    const deliveriesWithStartAndFinish = [
+      startingAdress,
+      ...customersToBeDeliveredTo,
+      startingAdress
+    ]
+
+    // Sends locations to mapquest and return the order of the deliveries.
     Axios({
       method: 'post',
       url: 'https://routeappback.totalfiltersolutions.com/mapquest',
-      data: customersToBeDeliveredTo
+      data: deliveriesWithStartAndFinish
     }).then(response => {
       const route = response.data.route.locationSequence;
       let stopOrder = [];
+
+      // Puts the customer list in the order returned by mapquest and then removes the start and end.
       route.forEach(element => {
-        stopOrder.push(customersToBeDeliveredTo[element])
+        stopOrder.push(deliveriesWithStartAndFinish[element])
       })
+      stopOrder.pop();
+      stopOrder.shift();
       dispatch({type: 'SET_CUSTOMER_ORDER', order: stopOrder})
     })
     props.onSubmit()
@@ -142,6 +156,7 @@ export default function ComboBox(props) {
           disabled={customersToBeDeliveredTo.length < 2}>
           Confirm Deliveries
         </Button>
+        <button onClick={() => console.log(customersToBeDeliveredTo)}>Get state</button>
       </Card>
     </div>
   );
