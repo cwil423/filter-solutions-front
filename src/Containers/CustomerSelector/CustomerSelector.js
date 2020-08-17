@@ -156,7 +156,6 @@ export default function ComboBox(props) {
           disabled={customersToBeDeliveredTo.length < 2}>
           Confirm Deliveries
         </Button>
-        <button onClick={() => console.log(customersToBeDeliveredTo)}>Get state</button>
       </Card>
     </div>
   );
